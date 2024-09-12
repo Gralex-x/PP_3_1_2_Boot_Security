@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: PP_3_1_1_Boot_Security
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/spring_boot_security
+    username: root
+    password: root
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        show_sql: true
+        format_sql: true
+        hbm2ddl:
+          auto: create
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+server:
+  port: 8088

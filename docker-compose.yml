@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: spring_boot_security
+    environment:
+      MYSQL_DATABASE: 'spring_boot_security'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - "3306:3306"
