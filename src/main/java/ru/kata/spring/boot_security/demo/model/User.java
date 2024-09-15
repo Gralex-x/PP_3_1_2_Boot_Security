@@ -12,6 +12,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NonNull;
+
 import java.util.Set;
 
 @Entity
@@ -54,5 +56,9 @@ public class User{
             throw new IllegalArgumentException("Age must be non-negative");
         }
         this.age = age;
+    }
+
+    public void setRole(@NonNull Role role) {
+        this.roles.add(role);
     }
 }

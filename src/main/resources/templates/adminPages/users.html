@@ -16,6 +16,13 @@
     <div th:each="user : ${users}">
         <div>
             <a th:text="${user.getUsername() + ', age: ' + user.getAge()}"></a>
+
+            <!-- Добавляем вывод ролей пользователя -->
+            <p><strong>Roles:</strong></p>
+            <ul>
+                <li th:each="role : ${user.roles}" th:text="${role.getAuthority()}"></li>
+            </ul>
+
             <div>
                 <a th:href="@{admin/users/edit(id=${user.getId()})}">
                     <button type="button">EDIT</button>
@@ -27,7 +34,7 @@
             <hr>
         </div>
     </div>
-    <a href="/admin/users/new">Create NEW User</a>
+    <a href="/admin/registration">Create NEW User</a>
 </div>
 
 <footer>

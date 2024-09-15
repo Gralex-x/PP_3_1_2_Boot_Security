@@ -37,6 +37,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -46,6 +47,8 @@ public class WebSecurityConfig {
                 .userDetailsService(userDetailsService);
         return http.build();
     }
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

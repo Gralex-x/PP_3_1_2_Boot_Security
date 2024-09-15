@@ -1,6 +1,6 @@
 spring:
   application:
-    name: PP_3_1_1_Boot_Security
+    name: PP_3_1_2_Boot_Security
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
