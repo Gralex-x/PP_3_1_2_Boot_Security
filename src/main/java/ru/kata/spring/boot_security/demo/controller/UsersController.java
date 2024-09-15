@@ -26,14 +26,6 @@ public class UsersController {
         return "users/users";
     }
 
-    @GetMapping(value = "/users", params = "count")
-    public String getLimitedUsers(@RequestParam(value = "count", required = false) Integer count,
-                                  Model model) {
-        model.addAttribute("count", count);
-        model.addAttribute("users", userService.getLimitedUsers(count));
-        return "users/users";
-    }
-
     @GetMapping("/users/new")
     public String newUser(@ModelAttribute("user") User user) {
         return "users/newUser";
@@ -46,7 +38,7 @@ public class UsersController {
     }
 
     @GetMapping(value = "/users/edit", params = "id")
-    public String editUser(@RequestParam("id") Integer id, Model model) {
+    public String editUser(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
         return "users/editUser";
     }
@@ -58,7 +50,7 @@ public class UsersController {
     }
 
     @PostMapping(value = "/users/delete", params = "id")
-    public String deleteUser(@RequestParam("id") Integer id) {
+    public String deleteUser(@RequestParam("id") Long id) {
         userService.deleteUser(id);
         return "redirect:/users";
     }

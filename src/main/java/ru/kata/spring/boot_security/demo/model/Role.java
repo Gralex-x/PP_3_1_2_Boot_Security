@@ -18,11 +18,10 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String role;
 
     public Role() {
-
     }
 
     public Role(String role) {
@@ -31,6 +30,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return "";
+        return role;
     }
 }

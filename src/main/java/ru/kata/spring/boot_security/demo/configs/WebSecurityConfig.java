@@ -9,8 +9,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import ru.kata.spring.boot_security.demo.service.UserDetailsServiceImpl;
 
 // ИЗБАВИЛСЯ ОТ DEPRECATED ИНТЕРФЕЙСА
 
@@ -19,10 +21,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
     private final SuccessUserHandler successUserHandler;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
+    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, SuccessUserHandler successUserHandler) {
         this.successUserHandler = successUserHandler;
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean
@@ -35,18 +39,19 @@ public class WebSecurityConfig {
                 .formLogin(form -> form
                         .successHandler(successUserHandler)
                         .permitAll()
-                ).logout(LogoutConfigurer::permitAll);
+                ).logout(LogoutConfigurer::permitAll)
+                .userDetailsService(userDetailsService);
         return http.build();
     }
 
-    @Bean
-    public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails user = User.builder()
-                .username("user")
-                .password("{noop}user") // noop убирате шифрование пароля
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(user);
-    }
+//    @Bean
+//    public InMemoryUserDetailsManager userDetailsManager() {
+//        UserDetails user = User.builder()
+//                .username("user")
+//                .password("{noop}user") // noop убирает шифрование пароля
+//                .roles("USER")
+//                .build();
+//        return new InMemoryUserDetailsManager(user);
+//    }
 
 }

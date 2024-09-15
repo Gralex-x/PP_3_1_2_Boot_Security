@@ -1,56 +1,60 @@
 package ru.kata.spring.boot_security.demo.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.dao.UserDao;
+import ru.kata.spring.boot_security.demo.dao.UserRepository;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userDao;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
+    public UserServiceImpl(UserRepository userDao) {
+        this.userRepository = userDao;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<User> getUsers() {
-        return userDao.getUsers();
+        return userRepository.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<User> getLimitedUsers(int count) {
-        return userDao.getLimitedUsers(count);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public User getUserById(int id) {
-        return userDao.getUserById(id);
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
     }
 
     @Override
     @Transactional
     public void addUser(User user) {
-        userDao.addUser(user);
+        userRepository.save(user);
     }
 
     @Override
     @Transactional
     public void updateUser(User user) {
-        userDao.updateUser(user);
+        Optional<User> user1 = userRepository.findById(user.getId());
+        if (user1.isPresent()) {
+            user1.get().setAge(user.getAge());
+            user1.get().setUsername(user.getUsername());
+            user1.get().setPassword(user.getPassword());
+            userRepository.save(user1.get());
+        } else {
+            throw new EntityNotFoundException("User not found");
+        }
     }
 
     @Override
     @Transactional
-    public void deleteUser(int id) {
-        userDao.deleteUser(id);
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }
