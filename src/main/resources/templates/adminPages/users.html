@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<header>
+    <h1>Users Management</h1>
+    <nav>
+        <a href="/admin">Home</a>
+    </nav>
+</header>
+
+<div>
+    <div th:each="user : ${users}">
+        <div>
+            <a th:text="${user.getUsername() + ', age: ' + user.getAge()}"></a>
+            <div>
+                <a th:href="@{admin/users/edit(id=${user.getId()})}">
+                    <button type="button">EDIT</button>
+                </a>
+                <form th:action="@{/admin/users/delete(id=${user.getId()})}" th:method="POST">
+                    <button type="submit">DELETE</button>
+                </form>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <a href="/admin/users/new">Create NEW User</a>
+</div>
+
+<footer>
+    <p>&copy; 2024 Gralexx</p>
+</footer>
+</body>
+</html>

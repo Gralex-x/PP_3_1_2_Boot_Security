@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Details</title>
+</head>
+<body>
+<header>
+    <h1>User Information</h1>
+    <nav>
+        <a href="/logout">Logout</a>
+        <a href="/">Home</a>
+    </nav>
+</header>
+
+<main>
+    <div th:if="${user}">
+        <h2>User Details</h2>
+        <p><strong>ID:</strong> <span th:text="${user.id}"></span></p>
+        <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+        <p><strong>Age:</strong> <span th:text="${user.age}"></span></p>
+        <p><strong>Roles:</strong></p>
+        <ul>
+            <li th:each="role : ${user.roles}" th:text="${role.getAuthority()}"></li>
+        </ul>
+    </div>
+
+    <div th:if="${user == null}">
+        <p>No user information available.</p>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2024 Gralexx</p>
+</footer>
+</body>
+</html>
