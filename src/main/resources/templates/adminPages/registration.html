@@ -32,7 +32,9 @@
         <div>
             <label for="roles">Roles:</label>
             <select id="roles" th:field="*{roles}" multiple>
-                <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+                <option th:each="role : ${roles}"
+                        th:value="${role.id}"
+                        th:text="${role.name}"></option>
             </select>
             <div th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></div>
         </div>

@@ -17,17 +17,20 @@
         <div>
             <a th:text="${user.getUsername() + ', age: ' + user.getAge()}"></a>
 
-            <!-- Добавляем вывод ролей пользователя -->
+
             <p><strong>Roles:</strong></p>
             <ul>
                 <li th:each="role : ${user.roles}" th:text="${role.getAuthority()}"></li>
             </ul>
 
+
+            <p><strong>Password:</strong> <span th:text="${user.getPassword()}"></span></p>
+
             <div>
-                <a th:href="@{admin/users/edit(id=${user.getId()})}">
+                <a th:href="@{/admin/user/edit(id=${user.getId()})}">
                     <button type="button">EDIT</button>
                 </a>
-                <form th:action="@{/admin/users/delete(id=${user.getId()})}" th:method="POST">
+                <form th:action="@{/admin/user/delete(id=${user.getId()})}" th:method="POST">
                     <button type="submit">DELETE</button>
                 </form>
             </div>

@@ -46,8 +46,7 @@ public class AdminsController {
     }
 
     @GetMapping("/registration")
-    public String registrationForm(Model model) {
-        model.addAttribute("user", new User());
+    public String registrationForm(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("roles", roleService.getAllRoles());
         return "adminPages/registration";
     }
@@ -63,19 +62,24 @@ public class AdminsController {
         return "redirect:/admin/users";
     }
 
-    @GetMapping(value = "/edit", params = "id")
+    @GetMapping(value = "/user/edit", params = "id")
     public String edit(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
+        User user = userService.getUserById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("currentUserRoles", user.getRoles());
+        model.addAttribute("roles", roleService.getAllRoles());
         return "adminPages/edit";
     }
 
-    @PostMapping(value = "edit", params = "id")
-    public String edit(@ModelAttribute("user") User user, BindingResult bindingResult) {
-        userValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "adminPages/edit";
-        }
+    @PostMapping(value = "/user/edit", params = "id")
+    public String edit(@ModelAttribute("user") User user) {
         userService.updateUser(user);
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping(value = "user/delete", params = "id")
+    public String delete(@RequestParam Long id){
+        userService.deleteUser(id);
         return "redirect:/admin/users";
     }
 
