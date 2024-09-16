@@ -12,17 +12,28 @@ import ru.kata.spring.boot_security.demo.model.User;
 import java.util.Set;
 
 @Service
-public class UserInitService {
+public class DataBaseInitService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserInitService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public DataBaseInitService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    @Transactional
+    public void initRoles() {
+        if (roleRepository.count() == 0) {
+            Role adminRole = new Role("ROLE_ADMIN");
+            Role userRole = new Role("ROLE_USER");
+
+            roleRepository.save(adminRole);
+            roleRepository.save(userRole);
+        }
     }
 
     @Transactional

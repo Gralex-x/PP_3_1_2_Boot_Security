@@ -5,11 +5,12 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class RoleInitializer {
+public class DataBaseInitializer {
 
     @Autowired
-    public RoleInitializer(RoleInitService roleInitService) {
-        roleInitService.initRoles();
+    public DataBaseInitializer(DataBaseInitService dataBaseInitService) {
+        dataBaseInitService.initRoles();
+        dataBaseInitService.initUsers();
     }
 
 }
