@@ -37,7 +37,8 @@ public class UserValidator implements Validator {
                 userService.getUserByUsername(user.getUsername());
                 errors.rejectValue("username", "", "Username is already taken");
                 return;
-            } catch (EntityNotFoundException ignored) {}
+            } catch (EntityNotFoundException ignored) {
+            }
         }
 
         if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
