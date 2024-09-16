@@ -10,6 +10,8 @@ import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
 
+import static io.micrometer.common.util.StringUtils.isBlank;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -55,8 +57,9 @@ public class UserServiceImpl implements UserService {
 
         existingUser.setAge(user.getAge());
         existingUser.setUsername(user.getUsername());
-        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        String password = user.getPassword();
+        if (!isBlank(password)) {
+            existingUser.setPassword(passwordEncoder.encode(password));
         }
         existingUser.setRoles(user.getRoles());
         userRepository.save(existingUser);
